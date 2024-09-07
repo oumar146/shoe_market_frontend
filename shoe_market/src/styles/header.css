@@ -1,0 +1,39 @@
+.header {
+  width: 100%;
+  background-color: #333;
+  color: white;
+  padding: 20px 50px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+.main-content {
+  padding-top: 100px;
+}
+
+.logo {
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.logo span {
+  color: black;
+}
+
+.nav-links {
+  list-style: none;
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 20px;
+  cursor: pointer;
+}
+
+.nav-links li {
+  color: white;
+  text-decoration: none;
+}
+
+.nav-links li:hover {
+  text-decoration: underline;
+}

@@ -41,7 +41,7 @@ const Login = () => {
       }
       // Connexion au site
       await login(email, password, setError);
-      navigate(`/admin/dashboard`);
+      navigate(`/home`);
     } catch (error) {
       // Erreur déjà gérer dans la function login
     }
