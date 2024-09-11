@@ -51,7 +51,9 @@ const Login = () => {
     <main className="login-container">
       <div className="login-box">
         <h2>Connexion à votre compte</h2>
-        <p>Entrez votre email et votre mot de passe pour vous connecter</p>
+        {!error && (
+          <p>Entrez votre email et votre mot de passe pour vous connecter</p>
+        )}
         {error && <p className="error-msg">{error}</p>}
         {/* Début champs du formulaire */}
         <div className="input-group">
