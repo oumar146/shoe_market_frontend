@@ -24,7 +24,6 @@ const ProtectedRoute = ({ element: Component, user, setUser }) => {
         );
         // Stocker les informations sur l'utilisateur
         setUser(response.data.user);
-        console.log(response.data);
         // Si le token expire dans moins de 5 minutes, stocker un nouveau token
         if (response.data.newToken) {
           localStorage.setItem("token", response.data.newToken);

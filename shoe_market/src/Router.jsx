@@ -7,17 +7,25 @@ import Signup from "./pages/SignUp";
 
 // Import du composant ProtectedRoute
 import ProtectedRoute from "./components/ProtectedRoute";
-import HomePage from "./pages/HomePage";
+import Home from "./pages/Home";
+import MyOffers from "./pages/MyOffers";
+import ProductDetails from "./pages/ProductDetails";
+import AllOffers from "./pages/AllOffers";
 
 // Définir les routes publiques
 const publicRoutes = [
   { path: "/", element: <Login /> },
   { path: "/login", element: <Login /> },
   { path: "/signup", element: <Signup /> },
+  { path: "/product/:reference", element: <ProductDetails /> },
 ];
 
 // Définir les routes protégées
-const protectedRoutes = [{ path: "/home", element: HomePage }];
+const protectedRoutes = [
+  { path: "/home", element: Home },
+  { path: "/my-offers", element: MyOffers },
+  { path: "/offers", element: AllOffers },
+];
 
 const Router = () => {
   const [user, setUser] = useState({});

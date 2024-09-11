@@ -12,7 +12,12 @@ const Header = () => {
 
   return (
     <header className="header">
-      <div className="logo">
+      <div
+        className="logo"
+        onClick={() => {
+          navigate("/home");
+        }}
+      >
         Shop<span>Market</span>
       </div>
       <nav>
@@ -22,10 +27,17 @@ const Header = () => {
           <li>Contact</li>
           <li
             onClick={() => {
-              navigate("/sales");
+              navigate("/my-offers");
             }}
           >
-            Mes ventes
+            Mes offres
+          </li>
+          <li
+            onClick={() => {
+              navigate("/offers");
+            }}
+          >
+            Toutes les offres
           </li>
           <li
             onClick={() => {
