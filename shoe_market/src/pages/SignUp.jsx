@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 import "../styles/login/form.css";
 
 const Signup = () => {
@@ -9,8 +9,9 @@ const Signup = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
-  const navigate = useNavigate();
 
+  const navigate = useNavigate();
+  // Gérer l'inscription au site
   const handleSignup = async () => {
     // Vérifier si les champs sont remplis
     if (!firstName || !lastName || !email || !password) {
@@ -19,7 +20,7 @@ const Signup = () => {
     }
 
     try {
-      // Inscription du client
+      // Requête pour l'inscription d'un utilisateur
       await axios.post("http://localhost:4100/user/signup", {
         firstName,
         lastName,
@@ -30,7 +31,7 @@ const Signup = () => {
       navigate(`/login`);
     } catch (error) {
       console.error("Erreur d'inscription :", error);
-      // Gérer les messages d'erreur spécifiques
+      // Gérer les messages d'erreur
       if (error.response && error.response.data.error) {
         setError(error.response.data.error);
       } else {

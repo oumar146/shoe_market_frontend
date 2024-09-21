@@ -1,0 +1,65 @@
+.carousel-content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0vh 20vh;
+}
+
+.carousel-text {
+  flex: 1;
+  padding: 20px;
+  color: #344d59;
+  text-align: left;
+}
+
+.carousel-text h2 {
+  font-size: 2.5em;
+  margin-bottom: 10px;
+}
+
+.carousel-text p {
+  font-size: 1.2em;
+  margin-bottom: 20px;
+}
+
+.shop-now-button {
+  background-color: #137c8b;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  cursor: pointer;
+  font-size: 1em;
+  border-radius: 5px;
+}
+
+.shop-now-button:hover {
+  background-color: #0f6470;
+}
+
+.carousel-content img {
+  flex: 1;
+  max-width: 50%;
+  border-radius: 10px; /* Optionnel : ajouter un peu de style */
+}
+
+/* Indicateurs */
+.carousel-indicators li {
+  background-color: #344d59;
+}
+
+.carousel-indicators .active {
+  background-color: #137c8b;
+}
+
+/* Flèches de navigation */
+.carousel-control-prev-icon,
+.carousel-control-next-icon {
+  filter: invert(100%);
+}
+
+/* Supprimer l'arrière-plan des flèches */
+.carousel-control-prev,
+.carousel-control-next {
+  background-color: transparent;
+  border: none;
+}
