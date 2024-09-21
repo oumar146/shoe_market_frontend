@@ -2,12 +2,12 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import Header from "../components/Header";
 import axios from "axios";
+import "../styles/offer.css";
+import Footer from "../components/Footer";
 
 const Offer = ({ user }) => {
-  // Récupération des paramètres de l'URL
   const { reference } = useParams();
-
-  const [product, setProduct] = useState(null); // Changer [] à null pour éviter un affichage vide avant le chargement
+  const [product, setProduct] = useState(null);
   const [error, setError] = useState(null);
 
   useEffect(() => {
@@ -18,7 +18,6 @@ const Offer = ({ user }) => {
         );
         setProduct(response.data);
       } catch (error) {
-        console.error("Error fetching product:", error);
         setError("Notre serveur est en panne. Veuillez réessayer plus tard.");
       }
     };
@@ -27,50 +26,44 @@ const Offer = ({ user }) => {
   }, [reference]);
 
   if (error) {
-    return <p>{error}</p>; // Gestion des erreurs
+    return <p>{error}</p>;
   }
 
   if (!product) {
-    return <p>Chargement en cours...</p>; // Affichage pendant le chargement
+    return <p>Chargement en cours...</p>;
   }
 
   return (
-    <div>
+    <div className="product-container">
       <Header user={user} />
       <div className="product-details">
         <div className="image-container">
-          <img src={product.image_url} alt={product.name} />{" "}
+          <img src={product.image_url} alt={product.name} />
+        </div>
+        <div className="details">
+          <h2>Details du produit</h2>
+          <h3>{product.name}</h3>
+          <p className="price">{product.price}€</p>
+          <p>
+            <strong>Taille :</strong> {product.size}
+          </p>
+          <p>
+            <strong>Description :</strong> {product.description}
+          </p>
           <p>
             <strong>Date de publication :</strong>{" "}
             {new Date(product.creation_date).toLocaleDateString()}
-          </p>{" "}
-        </div>
-        <div className="details">
-          <h2>{product.name}</h2> {/* Nom du produit */}
-          {product.category_name}
-          {/* Image du produit */}
-          <p>{product.price}€</p> {/* Prix */}
+          </p>
+          <h2>Contact</h2>
           <p>
-            <strong>Taille :</strong> {product.size}
-          </p>{" "}
-          <p>
-            <strong>Description :</strong> {product.description}
-          </p>{" "}
-          {/* Description */}
-          {/* Taille */}
-          {/* Catégorie */}
-          {/* Date */}
-          <h3>Contact</h3>
-          {/* Nom du vendeur */}
-          <p>
-            <strong>Email :</strong>
+            <strong>Email :</strong>{" "}
             <a href={`mailto:${product.creator_email}`}>
               {product.creator_email}
             </a>
-          </p>{" "}
-          {/* Lien mailto vers l'email */}
+          </p>
         </div>
       </div>
+      <Footer />
     </div>
   );
 };
