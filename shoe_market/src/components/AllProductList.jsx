@@ -1,24 +1,14 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import Button from "react-bootstrap/Button";
-import Card from "react-bootstrap/Card";
-// import "../styles/myProductList.css";
+import { Card, Button } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
+import "../styles/allProductList.css";
 
-const AllProductList = ({ user }) => {
+const AllProductList = ({ user, input }) => {
   const [products, setProducts] = useState([]);
-  const [message, setMessage] = useState(false);
+  const [requestSent, setRequestSent] = useState(false);
   const [error, setError] = useState(null);
-
-  const getProducts = async (productId) => {
-    try {
-      await axios.delete("http://localhost:4100/product/offers");
-      // Mettre à jour l'état pour retirer le produit supprimé
-      setProducts(products.filter((product) => product.id !== productId));
-      setError(null);
-    } catch (error) {
-      setError(error.response?.data?.error || "An error occurred");
-    }
-  };
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -26,10 +16,10 @@ const AllProductList = ({ user }) => {
         const response = await axios.get(
           "http://localhost:4100/product/offers"
         );
+        // Stocker toutes les offres
         setProducts(response.data.products);
-        if (!(response.data.products.length > 0)) setMessage(true);
+        setRequestSent(true);
       } catch (error) {
-        console.error("Error fetching products:", error);
         setError("Notre serveur est en panne. Veuillez réessayer plus tard.");
       }
     };
@@ -40,32 +30,41 @@ const AllProductList = ({ user }) => {
   return (
     <div className="product-list">
       {error && <p style={{ color: "red" }}>{error}</p>}
-      {products.map((product) => (
-        <Card key={product.id} style={{ width: "18rem", margin: "1rem" }}>
-          <Card.Img variant="top" src={product.image_url} />
-          <Card.Body>
-            <Card.Title>{product.name}</Card.Title>
-            <Card.Text>
-              Taille: {product.size} <br />
-              {product.price}€
-            </Card.Text>
-            {/* <Button
+      {products.map((product) =>
+        product.name.toLowerCase().includes(input.toLowerCase()) ||
+        product.description.toLowerCase().includes(input.toLowerCase()) ? (
+          <Card
+            key={product.id}
+            style={{ width: "18rem", margin: "1rem", cursor: "pointer" }}
+            onClick={() => navigate(`/offer/${product.reference}`)}
+          >
+            <Card.Img variant="top" src={product.image_url} />
+            <Card.Body className="product-info">
+              <Card.Title>{product.name}</Card.Title>
+              <Card.Text>
+                <span className="category">{product.category_name}</span> <br />
+                <span className="price">{product.price}€</span>
+                <br />
+              </Card.Text>
+              <Button
                 className="form-btn"
-                variant="danger"
+                variant="secondary"
                 // onClick={() => {
-                //   get(product.id);
+                //   deleteProduct(product.id);
                 // }}
               >
-                Supprimer
-              </Button> */}
-          </Card.Body>
-        </Card>
-      ))}
-      {message && (
-        <h4 className="no-product-message">
-          Vous n'avez pas encore créé de produit. Commencez maintenant en
-          ajoutant votre premier produit !
-        </h4>
+                Ajouter au panier
+              </Button>
+            </Card.Body>
+          </Card>
+        ) : (
+          <h4 key={product.id} className="no-product-message">
+            Aucune offre trouvé
+          </h4>
+        )
+      )}
+      {requestSent && !(products.length > 0) && (
+        <h4 className="no-product-message">Aucune offre trouvé</h4>
       )}
     </div>
   );

@@ -1,13 +1,16 @@
-import React from "react";
+import React, { useState } from "react";
 import Header from "../components/Header";
 import AllProductList from "../components/AllProductList";
-// import "../styles/allOffers.css";
+import SearchBar from "../components/SearchBar";
 
 const AllOffers = ({ user }) => {
+  const [input, setInput] = useState("");
+
   return (
     <div>
-      <Header />
-      <AllProductList user={user} />
+      <Header user={user} />
+      <SearchBar input={input} setInput={setInput} />
+      <AllProductList user={user} input={input} />
     </div>
   );
 };

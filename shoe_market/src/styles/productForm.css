@@ -81,6 +81,14 @@ p[style*="color: green"] {
 }
 .product-add-btn .btn {
   padding: 15px 20px;
+  background-color: #4caf50;
+  border: none;
+}
+
+.product-add-btn .btn:hover,
+.product-add-btn .btn:focus {
+  background-color: #4caf49;
+  border: none;
 }
 
 /* Responsiveness for smaller screens */

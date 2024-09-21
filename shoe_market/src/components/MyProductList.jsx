@@ -3,8 +3,8 @@ import axios from "axios";
 import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
 import Modal from "react-bootstrap/Modal";
-import "../styles/myProductList.css";
 import { useNavigate } from "react-router-dom";
+import "../styles/myProductList.css";
 
 const EditForm = ({ product }) => {
   const [show, setShow] = useState(false);
@@ -13,9 +13,9 @@ const EditForm = ({ product }) => {
   const [size, setSize] = useState("");
   const [price, setPrice] = useState("");
   const [categoryName, setCategoryName] = useState("");
-  const [categories, setCategories] = useState([]); // Stocker toutes les catégories
   const [image, setImage] = useState(null);
   const [error, setError] = useState(null);
+  const [categories, setCategories] = useState([]);
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
@@ -42,9 +42,9 @@ const EditForm = ({ product }) => {
     const fetchCategories = async () => {
       try {
         const response = await axios.get("http://localhost:4100/category/get");
-        setCategories(response.data.categories); // Mettre à jour l'état avec les catégories
+        // Mettre à jour les catégories
+        setCategories(response.data.categories);
       } catch (error) {
-        console.error("Error fetching categories:", error);
         setError("Notre serveur est en panne. Veuillez réessayer plus tard.");
       }
     };
@@ -75,6 +75,7 @@ const EditForm = ({ product }) => {
     if (image) formData.image = image;
 
     try {
+      // Mettre à jour les informations sur le produit
       const token = localStorage.getItem("token");
       console.log(formData);
       await axios.put("http://localhost:4100/product/update", formData, {
@@ -238,6 +239,15 @@ const MyProductList = ({ user }) => {
   const [products, setProducts] = useState([]);
   const [error, setError] = useState(null);
   const [requestSent, setRequestSent] = useState(false);
+
+  const formatDate = (dateString) => {
+    const date = new Date(dateString);
+    const day = date.getDate().toString().padStart(2, "0");
+    const month = (date.getMonth() + 1).toString().padStart(2, "0");
+    const year = date.getFullYear();
+    return `${day}/${month}/${year}`;
+  };
+
   const deleteProduct = async (productId) => {
     try {
       const token = localStorage.getItem("token");
@@ -262,6 +272,7 @@ const MyProductList = ({ user }) => {
     const fetchProducts = async () => {
       try {
         const token = localStorage.getItem("token");
+        // Répurer les offres d'un utilisateur
         const response = await axios.post(
           "http://localhost:4100/product/my-offers",
           {
@@ -276,7 +287,6 @@ const MyProductList = ({ user }) => {
         setProducts(response.data.products);
         setRequestSent(true);
       } catch (error) {
-        console.error("Error fetching products:", error);
         setError("Notre serveur est en panne. Veuillez réessayer plus tard.");
       }
     };
@@ -291,11 +301,17 @@ const MyProductList = ({ user }) => {
         <Card key={product.id} style={{ width: "18rem", margin: "1rem" }}>
           <Card.Img variant="top" src={product.image_url} />
           <Card.Body>
-            <Card.Title>{product.name}</Card.Title>
+            <Card.Title>
+              <span>{product.name}</span>
+            </Card.Title>
             <Card.Text>
-              Taille: {product.size} <br />
-              {product.price}€
+              Date de création: {formatDate(product.creation_date)} <br />
             </Card.Text>
+            {/* // button pour modifier un produit  */}
+            <EditForm product={product} />
+            {/* // button pour voir les détails d'un produit  */}
+            <Details product={product} />
+            {/* // button pour supprimer un produit  */}
             <Button
               className="form-btn"
               variant="danger"
@@ -305,11 +321,10 @@ const MyProductList = ({ user }) => {
             >
               Supprimer
             </Button>
-            <EditForm product={product} />
-            <Details product={product} />
           </Card.Body>
         </Card>
       ))}
+      {/* S'il n'y a pas de produit afficher un message */}
       {requestSent && !(products.length > 0) && (
         <h4 className="no-product-message">
           Vous n'avez pas encore créé de produit. Commencez maintenant en

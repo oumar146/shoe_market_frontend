@@ -1,28 +1,28 @@
 import React, { useState } from "react";
-import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 import "../styles/login/form.css";
 
 const login = async (email, password, setError) => {
   try {
-    // requête vers l'API pour se connecter
+    // Requête pour permettre à l'utilisateur de se connecter
     const response = await axios.post("http://localhost:4100/user/login", {
       email,
       password,
     });
+    // stockage du token dans le local storage
     const { token } = response.data;
     localStorage.setItem("token", token);
     setError("");
     return token;
   } catch (error) {
     console.error("Erreur de connexion :", error);
-    // Gérer les messages d'erreur spécifiques
+    // Gérer les messages d'erreur
     if (error.response && error.response.data.error) {
       setError(error.response.data.error);
     } else {
       setError("Une erreur est survenue lors de la connexion");
     }
-    throw error;
   }
 };
 
@@ -32,6 +32,7 @@ const Login = () => {
   const [error, setError] = useState("");
   const navigate = useNavigate();
 
+  // Gérer la connexion de l'utilisateur
   const handleLogin = async () => {
     try {
       // Vérifier si les champs sont remplis
@@ -39,7 +40,7 @@ const Login = () => {
         setError("Tous les champs doivent être remplis.");
         return;
       }
-      // Connexion au site
+      // Fonction permettant de se connecter au site
       await login(email, password, setError);
       navigate(`/home`);
     } catch (error) {
@@ -81,7 +82,6 @@ const Login = () => {
         <button className="submit-btn" onClick={handleLogin}>
           Connexion
         </button>
-
         <p>
           Vous n'avez pas de compte ? <a href="/signup">Inscrivez-vous ici</a>
         </p>

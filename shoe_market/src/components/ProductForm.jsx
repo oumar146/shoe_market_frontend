@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
-import { useNavigate } from "react-router-dom";
 import "../styles/productForm.css";
 
 const ProductForm = ({ user }) => {
@@ -12,9 +12,10 @@ const ProductForm = ({ user }) => {
   const [size, setSize] = useState("");
   const [price, setPrice] = useState("");
   const [categoryName, setCategoryName] = useState("");
-  const [categories, setCategories] = useState([]); // Stocker toutes les catégories
+  const [categories, setCategories] = useState([]);
   const [image, setImage] = useState(null);
   const [error, setError] = useState(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
@@ -29,7 +30,7 @@ const ProductForm = ({ user }) => {
     const fetchCategories = async () => {
       try {
         const response = await axios.get("http://localhost:4100/category/get");
-        setCategories(response.data.categories); // Mettre à jour l'état avec les catégories
+        setCategories(response.data.categories);
       } catch (error) {
         console.error("Error fetching categories:", error);
         setError("Notre serveur est en panne. Veuillez réessayer plus tard.");
@@ -58,26 +59,24 @@ const ProductForm = ({ user }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    console.log("Form submitted");
-
     if (!name || !description || !size || !price || !categoryName || !image) {
       setError("Tous les champs doivent être remplis.");
       return;
     }
 
+    setIsSubmitting(true);
     const creationDate = getCurrentDateTime();
 
-    const formData = {
-      name: name,
-      description: description,
-      creation_date: creationDate,
-      size: size,
-      price: price,
-      creator_id: user.id,
-      category_name: categoryName,
-      email: user.email,
-    };
-    if (image) formData.image = image;
+    const formData = new FormData();
+    formData.append("name", name);
+    formData.append("description", description);
+    formData.append("creation_date", creationDate);
+    formData.append("size", size);
+    formData.append("price", price);
+    formData.append("creator_id", user.id);
+    formData.append("category_name", categoryName);
+    formData.append("email", user.email);
+    if (image) formData.append("image", image);
 
     try {
       const token = localStorage.getItem("token");
@@ -87,6 +86,7 @@ const ProductForm = ({ user }) => {
           Authorization: `Bearer ${token}`,
         },
       });
+
       setError(null);
       setName("");
       setDescription("");
@@ -97,14 +97,16 @@ const ProductForm = ({ user }) => {
       handleClose();
       refreshPage();
     } catch (error) {
-      setError(error.response?.data?.error || "An error occurred");
+      setError(error.response?.data?.error || "Une erreur est survenue");
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
   return (
     <div className="product-add-btn">
       <>
-        <Button variant="success" className="btn" onClick={handleShow}>
+        <Button className="btn" onClick={handleShow}>
           Nouveau produit
         </Button>
 
@@ -137,7 +139,8 @@ const ProductForm = ({ user }) => {
               <div>
                 <label>{"Taille (EU):"}</label>
                 <input
-                  type="text"
+                  type="number"
+                  step="5"
                   value={size}
                   onChange={(e) => setSize(e.target.value)}
                   required
@@ -147,7 +150,7 @@ const ProductForm = ({ user }) => {
                 <label>Prix:</label>
                 <input
                   type="number"
-                  step="0.01"
+                  step="10"
                   value={price}
                   onChange={(e) => setPrice(e.target.value)}
                   required
@@ -172,7 +175,12 @@ const ProductForm = ({ user }) => {
                 <label>Image:</label>
                 <input type="file" onChange={handleFileChange} />
               </div>
-              <Button variant="success" type="submit">
+              <Button
+                variant="success"
+                type="submit"
+                // Désactiver le bouton pendant la soumission
+                disabled={isSubmitting}
+              >
                 Ajouter
               </Button>
             </form>

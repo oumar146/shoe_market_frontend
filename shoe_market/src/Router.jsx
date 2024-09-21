@@ -11,7 +11,7 @@ import Home from "./pages/Home";
 import MyOffers from "./pages/MyOffers";
 import ProductDetails from "./pages/ProductDetails";
 import AllOffers from "./pages/AllOffers";
-
+import Offer from "./pages/Offer";
 // Définir les routes publiques
 const publicRoutes = [
   { path: "/", element: <Login /> },
@@ -24,7 +24,8 @@ const publicRoutes = [
 const protectedRoutes = [
   { path: "/home", element: Home },
   { path: "/my-offers", element: MyOffers },
-  { path: "/offers", element: AllOffers },
+  { path: "/all-offers", element: AllOffers },
+  { path: "/offer/:reference", element: Offer },
 ];
 
 const Router = () => {
