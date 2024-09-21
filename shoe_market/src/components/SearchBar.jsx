@@ -1,4 +1,4 @@
-import "../styles/SearchBar.css"; // Assurez-vous que le fichier CSS est bien importé
+import "../styles/SearchBar.css";
 
 const SearchBar = ({ input, setInput }) => {
   const handleInputChange = (e) => {

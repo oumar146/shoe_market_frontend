@@ -63,3 +63,9 @@
   background-color: transparent;
   border: none;
 }
+
+@media (max-width: 800px) {
+  .carousel {
+    display: none;
+  }
+}

@@ -7,7 +7,7 @@ const Offer = ({ user }) => {
   // Récupération des paramètres de l'URL
   const { reference } = useParams();
 
-  const [product, setProduct] = useState(null); // Changer [] à null pour éviter un affichage vide avant le chargement
+  const [product, setProduct] = useState([]);
   const [error, setError] = useState(null);
 
   useEffect(() => {
