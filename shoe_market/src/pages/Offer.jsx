@@ -7,7 +7,12 @@ import Footer from "../components/Footer";
 
 const Offer = ({ user }) => {
   const { reference } = useParams();
+<<<<<<< HEAD
   const [product, setProduct] = useState(null);
+=======
+
+  const [product, setProduct] = useState([]);
+>>>>>>> c69032c (amélioration du responsive)
   const [error, setError] = useState(null);
 
   useEffect(() => {
