@@ -12,8 +12,8 @@ const Categories = () => {
         const response = await axios.get("http://localhost:4100/category/get");
         setCategories(response.data.categories);
       } catch (error) {
-        console.error("Error fetching categories:", error);
-        setError("Notre serveur est en panne. Veuillez réessayer plus tard.");
+        console.error("Erreur lors de la récupération des catégories:", error);
+        setError("Erreur lors de la récupération des catégories.");
       }
     };
 
@@ -21,6 +21,7 @@ const Categories = () => {
   }, []);
   return (
     <div className="categories">
+      {error && <p className="error">{error}</p>}
       <h2>Chercher par Catégorie</h2>
       <div className="category-list">
         {categories &&
@@ -29,8 +30,6 @@ const Categories = () => {
               {category.name}
             </div>
           ))}
-
-        {/* Ajoutez d'autres catégories si nécessaire */}
       </div>
     </div>
   );

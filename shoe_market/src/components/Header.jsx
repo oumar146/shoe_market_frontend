@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useContext } from "react";
 import { useNavigate } from "react-router-dom";
+import { UserContext } from "./UserContext"; // Import du contexte utilisateur
 import {
   Navbar,
   Offcanvas,
@@ -10,12 +11,15 @@ import {
 } from "react-bootstrap";
 import "../styles/header.css";
 
-const Header = ({ user }) => {
+const Header = () => {
+  const { user, updateUser } = useContext(UserContext); // Utilisation du contexte
   const navigate = useNavigate();
-  // Function pour déconnecter l'utilisateur
-  const handleLogout = async (navigate) => {
-    localStorage.removeItem("token");
-    navigate("/login");
+
+  // Fonction pour déconnecter l'utilisateur
+  const handleLogout = () => {
+    updateUser(null); // Effacer l'utilisateur du contexte
+    navigate("/home");
+    localStorage.removeItem("token"); // Supprimer le token du localStorage
   };
 
   return (
@@ -43,33 +47,34 @@ const Header = ({ user }) => {
                 <Nav.Link onClick={() => navigate("/contact")}>
                   Contact
                 </Nav.Link>
-                <Nav.Link onClick={() => navigate("/my-offers")}>
-                  Mes offres
-                </Nav.Link>
+                {user && (
+                  <Nav.Link onClick={() => navigate("/my-offers")}>
+                    Mes offres
+                  </Nav.Link>
+                )}
                 <Nav.Link onClick={() => navigate("/all-offers")}>
                   Toutes les offres
                 </Nav.Link>
 
-                {user && (
-                  <NavDropdown
-                    title="Mon compte"
-                    id={`offcanvasNavbarDropdown-expand-md`}
-                  >
-                    <NavDropdown.Item>Profil</NavDropdown.Item>
-                    <NavDropdown.Item>Commandes</NavDropdown.Item>
-                    <NavDropdown.Item>Paramètres</NavDropdown.Item>
-                    <NavDropdown.Item>Notifications</NavDropdown.Item>
-                    <NavDropdown.Item>Favoris</NavDropdown.Item>
-                    <Dropdown.Divider />
-                    <NavDropdown.Item
-                      onClick={() => {
-                        handleLogout(navigate);
-                      }}
-                    >
-                      Se déconnecter
+                <NavDropdown title="Mon compte">
+                  <NavDropdown.Item>Profil</NavDropdown.Item>
+                  <NavDropdown.Item>Commandes</NavDropdown.Item>
+                  <NavDropdown.Item>Paramètres</NavDropdown.Item>
+                  <NavDropdown.Item>Notifications</NavDropdown.Item>
+                  <NavDropdown.Item>Favoris</NavDropdown.Item>
+                  {user ? (
+                    <>
+                      <Dropdown.Divider />
+                      <NavDropdown.Item onClick={handleLogout}>
+                        Se déconnecter
+                      </NavDropdown.Item>
+                    </>
+                  ) : (
+                    <NavDropdown.Item onClick={() => navigate("/login")}>
+                      Se connecter
                     </NavDropdown.Item>
-                  </NavDropdown>
-                )}
+                  )}
+                </NavDropdown>
               </Nav>
             </Offcanvas.Body>
           </Navbar.Offcanvas>

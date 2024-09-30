@@ -4,8 +4,9 @@ import { Card, Button } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import "../styles/allProductList.css";
 
-const AllProductList = ({ user, input }) => {
+const AllProductList = ({ input }) => {
   const [products, setProducts] = useState([]);
+  const [productFilter, setProductFilter] = useState([]);
   const [requestSent, setRequestSent] = useState(false);
   const [error, setError] = useState(null);
   const navigate = useNavigate();
@@ -27,14 +28,23 @@ const AllProductList = ({ user, input }) => {
     fetchProducts();
   }, []);
 
+  useEffect(() => {
+    setProductFilter(
+      products.filter(
+        (product) =>
+          product.name.toLowerCase().includes(input.toLowerCase()) ||
+          product.description.toLowerCase().includes(input.toLowerCase())
+      )
+    );
+  }, [input, products]);
+
   return (
     <div className="product-list">
-      {error && <p style={{ color: "red" }}>{error}</p>}
-      {products.map((product) =>
-        product.name.toLowerCase().includes(input.toLowerCase()) ||
-        product.description.toLowerCase().includes(input.toLowerCase()) ? (
+      {error && <p className="error">{error}</p>}
+      {requestSent && productFilter.length > 0 ? (
+        productFilter.map((product) => (
           <Card
-            key={product.id}
+            key={product.reference}
             style={{ width: "18rem", margin: "1rem", cursor: "pointer" }}
             onClick={() => navigate(`/offer/${product.reference}`)}
           >
@@ -46,25 +56,14 @@ const AllProductList = ({ user, input }) => {
                 <span className="price">{product.price}€</span>
                 <br />
               </Card.Text>
-              <Button
-                className="form-btn"
-                variant="secondary"
-                // onClick={() => {
-                //   deleteProduct(product.id);
-                // }}
-              >
+              <Button className="form-btn" variant="secondary">
                 Ajouter au panier
               </Button>
             </Card.Body>
           </Card>
-        ) : (
-          <h4 key={product.id} className="no-product-message">
-            Aucune offre trouvé
-          </h4>
-        )
-      )}
-      {requestSent && !(products.length > 0) && (
-        <h4 className="no-product-message">Aucune offre trouvé</h4>
+        ))
+      ) : (
+        <h4 className="no-product-message">Aucune offre trouvée</h4>
       )}
     </div>
   );

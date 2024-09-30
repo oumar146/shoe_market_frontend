@@ -1,43 +1,18 @@
-import { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
-import axios from "axios";
+import React, { useContext } from "react";
+import { UserContext } from "./UserContext";
+import TokenChecker from "./TokenChecker";
 
-const ProtectedRoute = ({ element: Component, user, setUser }) => {
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    const tokenCheck = async () => {
-      const token = localStorage.getItem("token");
-      if (!token) {
-        navigate("/login");
-        return;
-      }
-
-      try {
-        const response = await axios.get(
-          "http://localhost:4100/user/token-check",
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
-        // Stocker les informations sur l'utilisateur
-        setUser(response.data.user);
-        // Si le token expire dans moins de 5 minutes, stocker un nouveau token
-        if (response.data.newToken) {
-          localStorage.setItem("token", response.data.newToken);
-        }
-      } catch (error) {
-        console.error("Error fetching protected resource:", error);
-        navigate("/login");
-      }
-    };
-
-    tokenCheck();
-  }, [navigate, setUser]);
-
-  return <Component user={user} />;
+const ProtectedRoute = ({ children }) => {
+  const { user } = useContext(UserContext);
+  console.log(7777777);
+  return (
+    <>
+      {/* Appeler TokenChecker pour vérifier la validité du token */}
+      {user && <TokenChecker />}
+      {/* Rendre la route protégée si l'utilisateur est connecté */}
+      {children}
+    </>
+  );
 };
 
 export default ProtectedRoute;

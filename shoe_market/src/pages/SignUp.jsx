@@ -22,8 +22,8 @@ const Signup = () => {
     try {
       // Requête pour l'inscription d'un utilisateur
       await axios.post("http://localhost:4100/user/signup", {
-        firstName,
-        lastName,
+        first_name: firstName,
+        last_name: lastName,
         email,
         password,
       });
