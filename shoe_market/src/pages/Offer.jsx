@@ -2,17 +2,12 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import Header from "../components/Header";
 import axios from "axios";
-import "../styles/offer.css";
 import Footer from "../components/Footer";
+import "../styles/offer.css";
 
-const Offer = ({ user }) => {
+const Offer = () => {
   const { reference } = useParams();
-<<<<<<< HEAD
-  const [product, setProduct] = useState(null);
-=======
-
   const [product, setProduct] = useState([]);
->>>>>>> c69032c (amélioration du responsive)
   const [error, setError] = useState(null);
 
   useEffect(() => {
@@ -21,7 +16,7 @@ const Offer = ({ user }) => {
         const response = await axios.get(
           `http://localhost:4100/product/${reference}`
         );
-        setProduct(response.data);
+        setProduct(response.data.product);
       } catch (error) {
         setError("Notre serveur est en panne. Veuillez réessayer plus tard.");
       }
@@ -40,7 +35,7 @@ const Offer = ({ user }) => {
 
   return (
     <div className="product-container">
-      <Header user={user} />
+      <Header />
       <div className="product-details">
         <div className="image-container">
           <img src={product.image_url} alt={product.name} />

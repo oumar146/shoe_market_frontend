@@ -5,6 +5,8 @@
 }
 .product-details {
   display: flex;
+  justify-content: center;
+  gap: 40vh;
   padding: 2vw;
   margin: 0vw;
   background-color: white;
@@ -19,9 +21,8 @@
 .image-container img {
   width: 100%;
   height: auto;
-  border: #137c8b 1px solid;
   border-radius: 1vw;
-  box-shadow: 0 0.4vw 0.6vw rgba(0, 0, 0, 0.1);
+  filter: brightness(0.9);
 }
 
 .details {
@@ -38,8 +39,8 @@
 }
 
 .details p {
-  /* margin: 1vw 0; */
   font-size: 20px;
+  text-align: left;
 }
 
 .details strong {

@@ -4,10 +4,11 @@ import Banner from "../components/Banner";
 import Categories from "../components/Categories";
 import Footer from "../components/Footer";
 import MoreArticle from "../components/MoreArticle";
-const Home = ({ user }) => {
+
+const Home = () => {
   return (
     <div>
-      <Header user={user} />
+      <Header />
       <Banner />
       <Categories />
       <MoreArticle />

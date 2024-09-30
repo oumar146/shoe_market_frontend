@@ -1,7 +1,7 @@
 import "../styles/SearchBar.css";
 
 const SearchBar = ({ input, setInput }) => {
-  const handleInputChange = (e) => {
+  const handleInputChange = async (e) => {
     setInput(e.target.value); // Mise à jour du state avec la saisie utilisateur
   };
 
@@ -14,7 +14,6 @@ const SearchBar = ({ input, setInput }) => {
         onChange={handleInputChange}
         className="search-input"
       />
-      {/* <button className="search-button">Go</button> */}
     </div>
   );
 };
