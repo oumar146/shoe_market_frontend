@@ -44,7 +44,7 @@ const AllProductList = ({ input }) => {
       {requestSent && productFilter.length > 0 ? (
         productFilter.map((product) => (
           <Card
-            key={product.id}
+            key={product.reference}
             style={{ width: "18rem", margin: "1rem", cursor: "pointer" }}
             onClick={() => navigate(`/offer/${product.reference}`)}
           >

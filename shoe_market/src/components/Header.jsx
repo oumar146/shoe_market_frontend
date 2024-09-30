@@ -13,7 +13,6 @@ import "../styles/header.css";
 
 const Header = () => {
   const { user, updateUser } = useContext(UserContext); // Utilisation du contexte
-  console.log(user);
   const navigate = useNavigate();
 
   // Fonction pour déconnecter l'utilisateur

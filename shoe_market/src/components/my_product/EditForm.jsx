@@ -1,8 +1,10 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
+import { UserContext } from "../UserContext";
 import axios from "axios";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import { useNavigate } from "react-router-dom";
+import ProtectedRoute from "../ProtectedRoute";
 
 const EditForm = ({ product }) => {
   const [show, setShow] = useState(false);
@@ -14,6 +16,7 @@ const EditForm = ({ product }) => {
   const [image, setImage] = useState(null);
   const [error, setError] = useState(null);
   const [categories, setCategories] = useState([]);
+  const { user } = useContext(UserContext);
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
@@ -101,84 +104,89 @@ const EditForm = ({ product }) => {
 
   return (
     <div>
-      <Button variant="primary" className="form-btn" onClick={handleShow}>
-        Modifier
-      </Button>
+      {show && <ProtectedRoute />}
+      {user && (
+        <>
+          <Button variant="primary" className="form-btn" onClick={handleShow}>
+            Modifier
+          </Button>
 
-      <Modal show={show} onHide={handleClose} backdrop="static">
-        <Modal.Header closeButton>
-          <Modal.Title>
-            <h1>Modifier l'offre</h1>
-            {error && <p className="error">{error}</p>}
-          </Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <form onSubmit={handleSubmit}>
-            <div>
-              <label>Nom du produit:</label>
-              <input
-                type="text"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-                required
-              />
-            </div>
-            <div>
-              <label>Description:</label>
-              <textarea
-                value={description}
-                onChange={(e) => setDescription(e.target.value)}
-                required
-              />
-            </div>
-            <div>
-              <label>{"Taille (EU):"}</label>
-              <input
-                type="text"
-                value={size}
-                onChange={(e) => setSize(e.target.value)}
-                required
-              />
-            </div>
-            <div>
-              <label>Prix:</label>
-              <input
-                type="number"
-                step="0.01"
-                value={price}
-                onChange={(e) => setPrice(e.target.value)}
-                required
-              />
-            </div>
-            <div>
-              <label>Categorie:</label>
-              <select
-                value={categoryName}
-                onChange={(e) => setCategoryName(e.target.value)}
-                required
-              >
-                <option value="">Sélectionnez une catégorie</option>
-                {categories.map((category) => (
-                  <option key={category.name} value={category.name}>
-                    {category.name}
-                  </option>
-                ))}
-              </select>
-            </div>
-            <div>
-              <label>Remplacer l'image : </label>
-              <input
-                type="file"
-                accept="image/png, image/jpeg"
-                onChange={handleFileChange}
-              />
-            </div>
-            <Button variant="success" type="submit" onClick={handleSubmit}>
-              Modifier
-            </Button>
-          </form>
-        </Modal.Body>
-      </Modal>
+          <Modal show={show} onHide={handleClose} backdrop="static">
+            <Modal.Header closeButton>
+              <Modal.Title>
+                <h1>Modifier l'offre</h1>
+                {error && <p className="error">{error}</p>}
+              </Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+              <form onSubmit={handleSubmit}>
+                <div>
+                  <label>Nom du produit:</label>
+                  <input
+                    type="text"
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                    required
+                  />
+                </div>
+                <div>
+                  <label>Description:</label>
+                  <textarea
+                    value={description}
+                    onChange={(e) => setDescription(e.target.value)}
+                    required
+                  />
+                </div>
+                <div>
+                  <label>{"Taille (EU):"}</label>
+                  <input
+                    type="text"
+                    value={size}
+                    onChange={(e) => setSize(e.target.value)}
+                    required
+                  />
+                </div>
+                <div>
+                  <label>Prix:</label>
+                  <input
+                    type="number"
+                    step="0.01"
+                    value={price}
+                    onChange={(e) => setPrice(e.target.value)}
+                    required
+                  />
+                </div>
+                <div>
+                  <label>Categorie:</label>
+                  <select
+                    value={categoryName}
+                    onChange={(e) => setCategoryName(e.target.value)}
+                    required
+                  >
+                    <option value="">Sélectionnez une catégorie</option>
+                    {categories.map((category) => (
+                      <option key={category.name} value={category.name}>
+                        {category.name}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+                <div>
+                  <label>Remplacer l'image : </label>
+                  <input
+                    type="file"
+                    accept="image/png, image/jpeg"
+                    onChange={handleFileChange}
+                  />
+                </div>
+                <Button variant="success" type="submit" onClick={handleSubmit}>
+                  Modifier
+                </Button>
+              </form>
+            </Modal.Body>
+          </Modal>
+        </>
+      )}
     </div>
   );
 };

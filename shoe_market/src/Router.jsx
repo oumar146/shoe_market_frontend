@@ -11,11 +11,12 @@ import Offer from "./pages/Offer";
 import AboutUs from "./pages/AboutUs";
 import Contact from "./pages/Contact";
 
+// Import de ProtectedRoute
+import ProtectedRoute from "./components/ProtectedRoute";
+
 // Définir les routes
 const routes = [
   { path: "/", element: <Home /> },
-  { path: "/login", element: <Login /> },
-  { path: "/signup", element: <Signup /> },
   { path: "/home", element: <Home /> },
   { path: "/about", element: <AboutUs /> },
   { path: "/contact", element: <Contact /> },
@@ -29,9 +30,17 @@ const Router = () => {
     <UserProvider>
       <BrowserRouter>
         <Routes>
-          {/* Routes*/}
+          {/* Routes publiques accessibles sans être connecté */}
+          <Route path="/login" element={<Login />} />
+          <Route path="/signup" element={<Signup />} />
+
+          {/* Routes protégées */}
           {routes.map(({ path, element }, index) => (
-            <Route key={index} path={path} element={element} />
+            <Route
+              key={index}
+              path={path}
+              element={<ProtectedRoute>{element}</ProtectedRoute>}
+            />
           ))}
         </Routes>
       </BrowserRouter>
