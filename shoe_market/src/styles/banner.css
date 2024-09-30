@@ -39,10 +39,9 @@
 .carousel-content img {
   flex: 1;
   max-width: 50%;
-  border-radius: 10px; /* Optionnel : ajouter un peu de style */
+  border-radius: 10px;
 }
 
-/* Indicateurs */
 .carousel-indicators li {
   background-color: #344d59;
 }
@@ -51,13 +50,12 @@
   background-color: #137c8b;
 }
 
-/* Flèches de navigation */
 .carousel-control-prev-icon,
 .carousel-control-next-icon {
+  /* inverser la couleur  */
   filter: invert(100%);
 }
 
-/* Supprimer l'arrière-plan des flèches */
 .carousel-control-prev,
 .carousel-control-next {
   background-color: transparent;

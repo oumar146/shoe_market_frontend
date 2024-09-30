@@ -4,7 +4,7 @@ import { Card, Button } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import "../styles/allProductList.css";
 
-const AllProductList = ({ user, input }) => {
+const AllProductList = ({ input }) => {
   const [products, setProducts] = useState([]);
   const [productFilter, setProductFilter] = useState([]);
   const [requestSent, setRequestSent] = useState(false);
@@ -40,11 +40,11 @@ const AllProductList = ({ user, input }) => {
 
   return (
     <div className="product-list">
-      {error && <p style={{ color: "red" }}>{error}</p>}
+      {error && <p className="error">{error}</p>}
       {requestSent && productFilter.length > 0 ? (
         productFilter.map((product) => (
           <Card
-            key={product.id}
+            key={product.reference}
             style={{ width: "18rem", margin: "1rem", cursor: "pointer" }}
             onClick={() => navigate(`/offer/${product.reference}`)}
           >
