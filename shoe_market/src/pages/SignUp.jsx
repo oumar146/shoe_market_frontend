@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import "../styles/login/form.css";
+import config from "../config";
 
 const Signup = () => {
   const [firstName, setFirstName] = useState("");
@@ -21,7 +22,7 @@ const Signup = () => {
 
     try {
       // Requête pour l'inscription d'un utilisateur
-      await axios.post("http://localhost:4100/user/signup", {
+      await axios.post(`${config.apiUrl}/user/signup`, {
         first_name: firstName,
         last_name: lastName,
         email,

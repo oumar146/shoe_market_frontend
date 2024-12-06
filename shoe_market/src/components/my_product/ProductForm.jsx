@@ -6,6 +6,7 @@ import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import ProtectedRoute from "../ProtectedRoute";
 import "../../styles/productForm.css";
+import config from "../../config";
 
 const ProductForm = () => {
   const [show, setShow] = useState(false);
@@ -47,7 +48,7 @@ const ProductForm = () => {
   useEffect(() => {
     const fetchCategories = async () => {
       try {
-        const response = await axios.get("http://localhost:4100/category/get");
+        const response = await axios.get(`${config.apiUrl}/category/get`);
         setCategories(response.data.categories);
       } catch (error) {
         console.error("Error fetching categories:", error);
@@ -104,7 +105,7 @@ const ProductForm = () => {
 
     try {
       const token = localStorage.getItem("token");
-      await axios.post("http://localhost:4100/product/new", formData, {
+      await axios.post(`${config.apiUrl}/product/new`, formData, {
         headers: {
           "Content-Type": "multipart/form-data",
           Authorization: `Bearer ${token}`,

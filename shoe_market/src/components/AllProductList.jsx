@@ -3,6 +3,7 @@ import axios from "axios";
 import { Card, Button } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import "../styles/allProductList.css";
+import config from "../config";
 
 const AllProductList = ({ input }) => {
   const [products, setProducts] = useState([]);
@@ -15,7 +16,7 @@ const AllProductList = ({ input }) => {
     const fetchProducts = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:4100/product/offers"
+          `${config.apiUrl}/product/offers`
         );
         // Stocker toutes les offres
         setProducts(response.data.products);

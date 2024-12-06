@@ -4,6 +4,7 @@ import axios from "axios";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import { UserContext } from "../components/UserContext"; // Import du contexte utilisateur
+import config from "../config";
 
 const TokenChecker = () => {
   const navigate = useNavigate();
@@ -20,7 +21,7 @@ const TokenChecker = () => {
 
     try {
       const response = await axios.get(
-        "http://localhost:4100/user/token-check",
+        `${config.apiUrl}/user/token-check`,
         {
           headers: {
             Authorization: `Bearer ${token}`,

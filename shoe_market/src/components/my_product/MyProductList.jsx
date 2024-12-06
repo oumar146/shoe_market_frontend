@@ -5,6 +5,7 @@ import Card from "react-bootstrap/Card";
 import Details from "./Details";
 import EditForm from "./EditForm";
 import "../../styles/myProductList.css";
+import config from "../../config";
 
 const MyProductList = ({ user }) => {
   const [products, setProducts] = useState([]);
@@ -22,7 +23,7 @@ const MyProductList = ({ user }) => {
   const deleteProduct = async (productId) => {
     try {
       const token = localStorage.getItem("token");
-      await axios.delete("http://localhost:4100/product/delete", {
+      await axios.delete(`${config.apiUrl}/product/delete`, {
         data: { product_id: productId },
         headers: {
           Authorization: `Bearer ${token}`,
@@ -45,7 +46,7 @@ const MyProductList = ({ user }) => {
         const token = localStorage.getItem("token");
         // Répurer les offres d'un utilisateur
         const response = await axios.post(
-          "http://localhost:4100/product/my-offers",
+          `${config.apiUrl}/product/my-offers`,
           {
             user_id: user.id,
           },

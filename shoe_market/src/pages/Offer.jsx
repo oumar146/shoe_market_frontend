@@ -4,6 +4,7 @@ import Header from "../components/Header";
 import axios from "axios";
 import Footer from "../components/Footer";
 import "../styles/offer.css";
+import config from "../config";
 
 const Offer = () => {
   const { reference } = useParams();
@@ -14,7 +15,7 @@ const Offer = () => {
     const fetchProduct = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:4100/product/${reference}`
+          `${config.apiUrl}/product/${reference}`
         );
         setProduct(response.data.product);
       } catch (error) {

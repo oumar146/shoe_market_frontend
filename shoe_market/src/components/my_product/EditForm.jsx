@@ -5,6 +5,7 @@ import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import { useNavigate } from "react-router-dom";
 import ProtectedRoute from "../ProtectedRoute";
+import config from "../../config";
 
 const EditForm = ({ product }) => {
   const [show, setShow] = useState(false);
@@ -42,7 +43,7 @@ const EditForm = ({ product }) => {
   useEffect(() => {
     const fetchCategories = async () => {
       try {
-        const response = await axios.get("http://localhost:4100/category/get");
+        const response = await axios.get(`${config.apiUrl}/category/get}`);
         // Mettre à jour les catégories
         setCategories(response.data.categories);
       } catch (error) {
@@ -79,7 +80,7 @@ const EditForm = ({ product }) => {
       // Mettre à jour les informations sur le produit
       const token = localStorage.getItem("token");
       console.log(formData);
-      await axios.put("http://localhost:4100/product/update", formData, {
+      await axios.put(`${config.apiUrl}/product/update`, formData, {
         headers: {
           "Content-Type": "multipart/form-data",
           Authorization: `Bearer ${token}`,

@@ -3,10 +3,11 @@ import { useNavigate } from "react-router-dom";
 import { UserContext } from "../components/UserContext"; // Import du contexte utilisateur
 import axios from "axios";
 import "../styles/login/form.css";
+import config from "../config";
 
 const login = async (email, password, setError, updateUser) => {
   try {
-    const response = await axios.post("http://localhost:4100/user/login", {
+    const response = await axios.post(`${config.apiUrl}/user/login`, {
       email,
       password,
     });
