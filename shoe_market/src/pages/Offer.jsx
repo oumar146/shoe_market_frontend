@@ -8,7 +8,7 @@ import config from "../config";
 
 const Offer = () => {
   const { reference } = useParams();
-  const [product, setProduct] = useState(null);
+  const [product, setProduct] = useState([]);
   const [error, setError] = useState(null);
 
   useEffect(() => {
