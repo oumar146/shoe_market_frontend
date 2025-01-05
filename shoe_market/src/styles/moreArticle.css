@@ -1,12 +1,12 @@
 .more-article {
   display: flex;
-  justify-content: space-around;
-  padding: 10vh 0vh;
+  padding: 1vh 0vh;
 }
 
 .article-item {
   position: relative;
   cursor: pointer;
+  padding: 0.8vh;
 }
 
 .article-item img {
@@ -17,8 +17,8 @@
 
 .article-text {
   position: absolute;
-  bottom: 10px;
-  left: 10px;
+  bottom: 20px;
+  left: 30px;
   background-color: white;
   border: none;
   padding: 10px 25px;
@@ -26,6 +26,11 @@
   font-weight: bold;
   z-index: 1;
   font-size: larger;
+}
+
+.article-text:hover {
+  background-color: rgba(255, 255, 255, 0.9);
+  transition: ease 0.3s ;
 }
 
 @media (max-width: 800px) {

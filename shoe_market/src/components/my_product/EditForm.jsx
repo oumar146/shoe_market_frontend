@@ -43,7 +43,7 @@ const EditForm = ({ product }) => {
   useEffect(() => {
     const fetchCategories = async () => {
       try {
-        const response = await axios.get(`${config.apiUrl}/category/get}`);
+        const response = await axios.get(`${config.apiUrl}/category/get`);
         // Mettre à jour les catégories
         setCategories(response.data.categories);
       } catch (error) {

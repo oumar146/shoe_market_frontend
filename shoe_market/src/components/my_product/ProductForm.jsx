@@ -138,7 +138,7 @@ const ProductForm = () => {
             <Modal.Body>
               {error && <p className="error">{error}</p>}
 
-              <form onSubmit={handleSubmit}>
+              <form onSubmit={handleSubmit}method="POST" enctype="multipart/form-data">
                 <div>
                   <label>Nom du produit:</label>
                   <input

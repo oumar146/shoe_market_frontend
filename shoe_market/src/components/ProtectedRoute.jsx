@@ -4,7 +4,7 @@ import TokenChecker from "./TokenChecker";
 
 const ProtectedRoute = ({ children }) => {
   const { user } = useContext(UserContext);
-  console.log(7777777);
+
   return (
     <>
       {/* Appeler TokenChecker pour vérifier la validité du token */}
