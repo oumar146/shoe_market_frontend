@@ -32,6 +32,7 @@ const AllProductList = ({ input }) => {
   useEffect(() => { 
   
     setProductFilter(
+      // filtrer les offres
       products.filter((product) => {
         const matchesUserFilter = user.id ? product.creator_id !== user.id : true;
         const matchesInputFilter =
